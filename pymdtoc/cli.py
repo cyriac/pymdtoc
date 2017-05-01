@@ -1,6 +1,6 @@
 import fire
 
-from __init__ import TOC
+from pymdtoc import TOC
 
 
 class TOCcli(object):

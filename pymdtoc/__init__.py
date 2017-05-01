@@ -1,6 +1,8 @@
 import copy
 
 class TOC(object):
+    STARTTOC_TAG = "<!-- starttoc -->"
+    ENDTOC_TAG = "<!-- endtoc -->"
     def __init__(self, file=None, lines=None,
                  toc_heading='Table of contents',
                  anchor_function=None):
@@ -63,15 +65,16 @@ class TOC(object):
         if len(self.headings) > 0:
             start = 0
 
-            if content[0].strip() == "<!-- starttoc -->":
+            if content[0].strip() == self.STARTTOC_TAG:
                 for line in content:
                     start += 1
-                    if line.strip() == "<!-- endtoc -->":
+                    if line.strip() == self.ENDTOC_TAG:
                         break
 
-            content = "<!-- starttoc -->\n" +\
+            content = content[start+1:] if start > 0 else content
+            content = self.STARTTOC_TAG + "\n" +\
                       self.toc +\
-                      "\n\n<!-- endtoc -->" + '\n\n' +\
-                      "".join(content[start+1:])
+                      "\n\n" + self.ENDTOC_TAG + '\n\n' +\
+                      "".join(content)
 
         return content
