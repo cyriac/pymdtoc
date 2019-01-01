@@ -1,8 +1,20 @@
 import os
 import sys
 
-from pip.req import parse_requirements
-from pip.download import PipSession
+try: 
+    # For pip version greater than 10
+    from pip._internal.req import parse_requirements
+except ImportError: 
+    # For pip version less than 9.0.3
+    from pip.req import parse_requirements
+
+try: 
+    # For pip version greater than 10
+    from pip._internal.download import PipSession
+except ImportError: 
+    # For pip version less than 9.0.3
+    from pip.req import parse_requirements
+
 from setuptools import find_packages
 
 try:
